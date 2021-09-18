@@ -1,2 +1,5 @@
 # docker-jetbrains
 用于构建远程jetbrains IDE
+本项目通过projetor项目构建了基于2021版的idea的镜像，如果使用者有需要别的ide，请自行构建镜像然后修改脚本
+本脚本是用于centos等拥有yum包管理工具的系统，其他系统请相应修改脚本
+

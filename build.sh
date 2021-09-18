@@ -1,8 +1,13 @@
 yum update -y
 yum install nginx -y
 yum install docker-ce docker-ce-cli containerd.io -y
+yum install httpd-tools -y
+mkdir -p /etc/nginx/db
+echo "输入鉴权的密码 用户名为hkzhao"
+htpasswd -c /etc/nginx/db/passwd.db hkzhao
 systemctl start docker
 # 输入密码
+echo "输入证书生成的秘钥"
 openssl genrsa -des3 -out server.pass.key 2048 
 openssl rsa -in server.pass.key -out server.key
 # -req 生成证书签名请求
@@ -44,6 +49,8 @@ http {
         server_name  localhost;
     
         location /idea/ {
+            auth_basic "secret";
+            auth_basic_user_file /etc/nginx/db/passwd.db;
             proxy_pass http://127.0.0.1:8887/;
             client_max_body_size 10m; #表示最大上传10M，需要多大设置多大。
             #设置主机头和客户端真实地址，以便服务器获取客户端真实IP
@@ -56,6 +63,8 @@ http {
             # proxy_set_header X-Forwarded-Scheme \$scheme;
         }
         location /clion/ {
+            auth_basic "secret";
+            auth_basic_user_file /etc/nginx/db/passwd.db;
             proxy_pass http://127.0.0.1:8886/;
             client_max_body_size 10m; #表示最大上传10M，需要多大设置多大。
             #设置主机头和客户端真实地址，以便服务器获取客户端真实IP
@@ -87,5 +96,5 @@ http {
 }" > /etc/nginx/nginx.conf
 nginx -t
 nginx -s reload
-docker run --rm -p 8887:8887 -it -d hkzhao123/idea-u
-docker run --rm -p 8886:8887 -it -d hkzhao123/projector-clion
+docker run --rm -p 8887:8887 -it -d hhkzhao123/idea-u:latest
+docker run --rm -p 8886:8887 -it -d hkzhao123/projector-clion:1.0.0
