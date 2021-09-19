@@ -24,8 +24,8 @@ cp server.csr /etc/nginx/server.csr
 cp server.key /etc/nginx/server.key
 systemctl start nginx
 nginx -t
-docker pull hkzhao123/projector-clion-grpc #cpp版本
-docker pull hkzhao123/projector-idea #java版本
+docker pull hkzhao123/projector-clion-grpc:1.0.0 #cpp版本
+docker pull hkzhao123/idea-u #java版本
 rm -rf /etc/nginx/nginx.conf
 echo "worker_processes  1;
 
@@ -96,5 +96,5 @@ http {
 }" > /etc/nginx/nginx.conf
 nginx -t
 nginx -s reload
-docker run --rm -p 8887:8887 -it -d hhkzhao123/idea-u
-docker run --rm -p 8886:8887 -it -d hkzhao123/projector-clion-grpc
+docker run --rm -p 8887:8887 -it -d hkzhao123/idea-u
+docker run --rm -p 8886:8887 -it -d hkzhao123/projector-clion-grpc:1.0.0
