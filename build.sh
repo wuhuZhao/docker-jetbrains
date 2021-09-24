@@ -96,5 +96,7 @@ http {
 }" > /etc/nginx/nginx.conf
 nginx -t
 nginx -s reload
-docker run --rm -p 8887:8887 -it -d hkzhao123/idea-u
-docker run --rm -p 8886:8887 -it -d hkzhao123/projector-clion-grpc:1.0.1
+mkdir -p projector-clion
+mkdir -p projector-idea
+docker run --rm -p 8887:8887 -v projector-clion:/root -it -d hkzhao123/idea-u
+docker run --rm -p 8886:8887 -v projector-idea:/root -it -d hkzhao123/projector-clion-grpc:1.0.1
